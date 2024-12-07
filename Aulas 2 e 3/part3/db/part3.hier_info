@@ -1,0 +1,26 @@
+|part3
+Qb <= part2_bloco:inst1.Qb
+D => part2_bloco:inst.D
+Clock => inst10.IN0
+Clock => part2_bloco:inst1.Clk
+Qa <= part2_bloco:inst1.Qa
+
+
+|part3|part2_bloco:inst1
+Qa <= inst2.DB_MAX_OUTPUT_PORT_TYPE
+D => inst4.IN0
+D => inst.IN1
+Clk => inst1.IN1
+Clk => inst.IN0
+Qb <= inst3.DB_MAX_OUTPUT_PORT_TYPE
+
+
+|part3|part2_bloco:inst
+Qa <= inst2.DB_MAX_OUTPUT_PORT_TYPE
+D => inst4.IN0
+D => inst.IN1
+Clk => inst1.IN1
+Clk => inst.IN0
+Qb <= inst3.DB_MAX_OUTPUT_PORT_TYPE
+
+

@@ -1,0 +1,76 @@
+library ieee;
+use ieee.std_logic_1164.all;
+
+entity fsm_sequence is
+    port (
+        clk     : in std_logic;    -- clock input
+        reset_n : in std_logic;    -- active-low reset
+        w       : in std_logic;    -- input w
+        z       : out std_logic;   -- output z
+        leds    : out std_logic_vector(8 downto 0)  -- LED outputs for states
+    );
+end entity fsm_sequence;
+
+architecture behavioral of fsm_sequence is
+    signal state : std_logic_vector(8 downto 0);  -- one-hot encoding of states
+
+begin
+    -- State transitions and output logic
+    process (clk)
+    begin
+        if rising_edge(clk) then
+            if reset_n = '0' then
+                state <= "000000001";  -- reset to state A
+            else
+                case state is
+                    when "000000001" =>  -- State A
+                        if w = '1' then
+                            state <= "000000010";  -- transition to state F
+                        else
+                            state <= "000000010";  -- transition to state B
+                        end if;
+
+                    when "000000010" =>  -- State B
+                        if w = '1' then
+                            state <= "000001000";  -- transition to state F
+                        else
+                            state <= "000000100";  -- transition to state C
+                        end if;
+
+                    when "000000100" =>  -- State C
+                        if w = '1' then
+                            state <= "000010000";  -- transition to state F
+                        else
+                            state <= "000001000";  -- transition to state D
+                        end if;
+
+                    when "000001000" =>  -- State D
+                        if w = '1' then
+                            state <= "100000000";  -- transition to state F
+                        else
+                            state <= "010000000";  -- transition to state E
+                        end if;
+
+                    when "010000000" =>  -- State E
+                        if w = '1' then
+                            state <= "100000000";  -- transition to state I
+                        else
+                            state <= "010000000";  -- stay in state E
+                        end if;
+
+                    -- Implement the other states similarly for F, G, H, and I
+
+                    when others =>
+                        state <= "000000001";  -- default to state A
+                end case;
+            end if;
+        end if;
+    end process;
+
+    -- Output logic for z (LED 9)
+    z <= '1' when (state = "010000000" or state = "100000000") else '0';
+
+    -- Assign state to LEDs
+    leds <= state;
+
+end architecture behavioral;

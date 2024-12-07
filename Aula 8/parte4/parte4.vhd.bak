@@ -1,0 +1,112 @@
+library IEEE;
+use IEEE.STD_LOGIC_1164.ALL;
+use IEEE.STD_LOGIC_ARITH.ALL;
+use IEEE.STD_LOGIC_UNSIGNED.ALL;
+
+entity Morse_Encoder is
+    Port (
+        SW : in STD_LOGIC_VECTOR (2 downto 0);  -- Entradas SW2−0 (Seleção de letras de A até H)
+        KEY : in STD_LOGIC_VECTOR (1 downto 0); -- KEY1 (iniciar), KEY0 (reset)
+        clk : in STD_LOGIC;                     -- Clock
+        LEDR : out STD_LOGIC                    -- Saída para o LED (Morse)
+    );
+end Morse_Encoder;
+
+architecture Behavioral of Morse_Encoder is
+
+    type state_type is (idle, dot, dash, pause);  -- Definição dos estados: idle, ponto, traço e pausa
+    signal state, next_state : state_type;
+    signal morse_code : STD_LOGIC_VECTOR(7 downto 0); -- Vetor de 8 bits para armazenar o código Morse
+    signal counter : INTEGER := 0;                  -- Contador para definir duração dos pontos e traços
+	 signal tam_morse : INTEGER := 0;
+    signal bit_idx : INTEGER := 0;                  -- Índice para o bit atual no código Morse
+    signal active : STD_LOGIC := '0';               -- Indica se o encoder está ativo ou não
+
+    -- Constantes para definir a duração dos pontos e traços
+    constant dot_time : INTEGER := 50000000;  -- Meio segundo para ponto (assumindo 100 MHz clock)
+    constant dash_time : INTEGER := 150000000;-- 1.5 segundos para traço
+    constant pause_time : INTEGER := 50000000;-- Meio segundo de pausa entre cada símbolo
+
+begin
+
+    -- FSM sequencial que atualiza o estado atual com base no clock
+    process(clk, KEY(0))
+    begin
+        if KEY(0) = '0' then  -- Reset assíncrono
+            state <= idle;
+            active <= '0';
+        elsif rising_edge(clk) then
+            state <= next_state;
+        end if;
+    end process;
+
+    -- Próximo estado e lógica de saída da FSM
+    process(state, counter, SW, bit_idx, active)
+    begin
+        case state is
+            when idle =>
+                if KEY(1) = '0' then
+                    -- Selecionar o código Morse correspondente à letra escolhida
+                    case SW is
+                        when "000" => morse_code <= "01XX"; -- A: .-
+                        when "001" => morse_code <= "0111"; -- B: -...
+                        when "010" => morse_code <= "0101"; -- C: -.-.
+                        when "011" => morse_code <= "011X"; -- D: -..
+                        when "100" => morse_code <= "1XXX"; -- E: .
+                        when "101" => morse_code <= "1101"; -- F: ..-.
+                        when "110" => morse_code <= "001X"; -- G: --.
+                        when "111" => morse_code <= "1111"; -- H: ....
+                        when others => morse_code <= "0000";
+                    end case;
+                    active <= '1';
+                    bit_idx <= 0;
+                    next_state <= pause;
+                else
+                    next_state <= idle;
+                end if;
+                LEDR <= '0';
+
+            when dot =>
+                if counter < dot_time then
+                    counter <= counter + 1;
+                    LEDR <= '1';
+                    next_state <= dot;
+                else
+                    counter <= 0;
+                    bit_idx <= bit_idx + 1;
+                    next_state <= pause;
+                end if;
+
+            when dash =>
+                if counter < dash_time then
+                    counter <= counter + 1;
+                    LEDR <= '1';
+                    next_state <= dash;
+                else
+                    counter <= 0;
+                    bit_idx <= bit_idx + 1;
+                    next_state <= pause;
+                end if;
+
+            when pause =>
+                if counter < pause_time then
+                    counter <= counter + 1;
+                    LEDR <= '0';
+                    next_state <= pause;
+                else
+                    counter <= 0;
+                    if bit_idx < 8 then
+                        if morse_code(bit_idx) = '1' then
+                            next_state <= dash;
+                        elsif morse_code(bit_idx) = '0' then
+                            next_state <= dot;
+                        end if;
+                    else
+                        next_state <= idle;
+                        active <= '0';
+                    end if;
+                end if;
+        end case;
+    end process;
+
+end Behavioral;

@@ -1,0 +1,126 @@
+library IEEE;
+use IEEE.STD_LOGIC_1164.ALL;
+use IEEE.NUMERIC_STD.ALL;
+
+entity part4 is
+    port (
+        clock   : in STD_LOGIC;
+        wren    : in STD_LOGIC;
+        address : in STD_LOGIC_VECTOR(4 downto 0);
+        data    : in STD_LOGIC_VECTOR(3 downto 0);
+        q       : out STD_LOGIC_VECTOR(3 downto 0);
+        HEX2    : out STD_LOGIC_VECTOR(6 downto 0); -- Endereço 1 dígito (4 BITS)
+        HEX3    : out STD_LOGIC_VECTOR(6 downto 0); -- Endereço 2 dígito (0, 0, 0, MSB)
+        HEX4    : out STD_LOGIC_VECTOR(6 downto 0); -- write address 
+		  HEX5    : out STD_LOGIC_VECTOR(6 downto 0); -- write address (msb)
+        HEX0    : out STD_LOGIC_VECTOR(6 downto 0); -- Output dados
+		  clk     : in  STD_LOGIC;   -- Clock de 50 MHz
+        reset   : in  STD_LOGIC;  -- Reset para inicializar o contador
+		  SW : in STD_LOGIC_VECTOR(8 downto 0);
+	 
+	 );
+end part4;
+
+architecture Behavioral of part4 is
+
+	constant COUNT_MAX : integer := 50000000; -- Contador para 1 segundo (50 MHz * 1 s)
+	constant ADRESS_MAX : integer := 32;
+	
+	signal counter_1s : integer := 0;
+   signal adress_counter : integer := 0;
+   signal clk_1s : STD_LOGIC := '0';  -- Sinal de clock para 1 segundo
+	
+    component teste
+        port (
+            address : in STD_LOGIC_VECTOR(4 downto 0);
+            clock   : in STD_LOGIC;
+            data    : in STD_LOGIC_VECTOR(3 downto 0);
+            wren    : in STD_LOGIC;
+            q       : buffer STD_LOGIC_VECTOR(3 downto 0)
+        );
+    end component;
+
+    function int_to_7seg(d : integer) return std_logic_vector is
+    begin
+        case d is
+            when 0   => return "1000000"; -- 0
+            when 1   => return "1111001"; -- 1
+            when 2   => return "0100100"; -- 2
+            when 3   => return "0110000"; -- 3
+            when 4   => return "0011001"; -- 4
+            when 5   => return "0010010"; -- 5
+            when 6   => return "0000010"; -- 6
+            when 7   => return "1111000"; -- 7
+            when 8   => return "0000000"; -- 8
+            when 9   => return "0010000"; -- 9
+            when 10  => return "0001000"; -- A
+            when 11  => return "0000011"; -- B
+            when 12  => return "1000110"; -- C
+            when 13  => return "0100001"; -- D
+            when 14  => return "0000110"; -- E
+            when 15  => return "0001110"; -- F
+            when others => return "0000000"; -- Desconhecido
+        end case;
+    end function;
+
+	 SIGNAL counter : INTEGER := 0;
+	 signal HEX0
+	 
+begin
+    
+    -- outputRAM <= q; -- Saída da RAM
+    -- inputRAM <= data; -- Dados de entrada
+    -- endereco <= address; 
+
+    
+    memoria : teste
+        port map (
+            address => endereco,
+            clock   => clock,
+            data    => inputRAM,
+            wren    => wren,
+            q       => outputRAM
+        );
+		  
+    process(clk, reset)
+		
+		 VARIABLE writeadr : STD_LOGIC_VECTOR (4 DOWNTO 0);
+		 VARIABLE i : INTEGER := 0;
+    begin
+        if reset = '1' then
+            counter_1s <= 0;
+            clk_1s <= '0';
+            adress_counter <= 0;
+				HEX0 <= int_to_7seg(adress_counter);
+		  end if;
+        elsif rising_edge(clk) then
+            -- Contador de 1 segundo
+            if counter_1s = COUNT_MAX - 1 then
+                counter_1s <= 0;
+                clk_1s <= '1';
+					 
+			   if counter = 0 then
+					writeadr := sw(3) & SW(2) & SW(1) & SW(0);
+					HEX4 <= int_to_7seg(to_integer(unsigned(writeadr(3 downto 0)));
+					HEX5 <= int_to_7seg(to_integer(unsigned(writeadr(4 downto 4)));
+				end if;
+				
+            else
+                counter_1s <= counter_1s + 1;
+            end if;
+            
+            -- Atualiza o contador de dígitos a cada pulso de 1 segundo
+            if clk_1s = '1' then
+					 clk_1s <= '0';
+                if adress_counter = ADRESS_MAX - 1 then
+                    adress_counter <= 0;
+                else
+                    adress_counter <= adress_counter + 1;
+                end if;
+					 HEX0 <= int_to_7seg(adress_counter);
+            end if;
+        end if;
+    end process;
+	 HEX1 <= 
+	 
+end Behavioral;

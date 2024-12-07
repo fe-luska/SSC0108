@@ -1,0 +1,17 @@
+C:/Users/12777204/Desktop/part3/part3.vhd {1 {vcom -work work -2002 -explicit -stats=none C:/Users/12777204/Desktop/part3/part3.vhd
+Model Technology ModelSim - Intel FPGA Edition vcom 10.5b Compiler 2016.10 Oct  5 2016
+-- Loading package STANDARD
+-- Loading package TEXTIO
+-- Loading package std_logic_1164
+-- Compiling entity part3
+-- Compiling architecture bdf_type of part3
+
+} {} {}} C:/Users/12777204/Desktop/part3/part2_bloco.vhd {1 {vcom -work work -2002 -explicit -stats=none C:/Users/12777204/Desktop/part3/part2_bloco.vhd
+Model Technology ModelSim - Intel FPGA Edition vcom 10.5b Compiler 2016.10 Oct  5 2016
+-- Loading package STANDARD
+-- Loading package TEXTIO
+-- Loading package std_logic_1164
+-- Compiling entity part2_bloco
+-- Compiling architecture bdf_type of part2_bloco
+
+} {} {}}

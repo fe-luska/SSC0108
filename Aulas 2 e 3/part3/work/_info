@@ -1,0 +1,88 @@
+m255
+K4
+z2
+13
+!s112 1.1
+!i10d 8192
+!i10e 25
+!i10f 100
+cModel Technology
+dC:/intelFPGA/19.1
+Epart2_bloco
+Z0 w1724784923
+Z1 DPx3 std 6 textio 0 22 zE1`LPoLg^DX3Oz^4Fj1K3
+Z2 DPx4 ieee 14 std_logic_1164 0 22 eNV`TJ_GofJTzYa?f<@Oe1
+Z3 dC:/Users/12777204/Desktop/part3
+Z4 8C:/Users/12777204/Desktop/part3/part2_bloco.vhd
+Z5 FC:/Users/12777204/Desktop/part3/part2_bloco.vhd
+l0
+L25
+V>df9YTNLAzLAm@4I^dPS:2
+!s100 Y=U7XRhg:UQfW3XP`Zn@>2
+Z6 OV;C;10.5b;63
+32
+Z7 !s110 1724791151
+!i10b 1
+Z8 !s108 1724791151.000000
+Z9 !s90 -reportprogress|300|-work|work|-2002|-explicit|-stats=none|C:/Users/12777204/Desktop/part3/part2_bloco.vhd|
+Z10 !s107 C:/Users/12777204/Desktop/part3/part2_bloco.vhd|
+!i113 1
+Z11 o-work work -2002 -explicit
+Z12 tExplicit 1 CvgOpt 0
+Abdf_type
+R1
+R2
+DEx4 work 11 part2_bloco 0 22 >df9YTNLAzLAm@4I^dPS:2
+l44
+L35
+VH2Gkoi?g1cc=z[21ckd]h3
+!s100 iLU163NJz<4=D=YoL=i=R3
+R6
+32
+R7
+!i10b 1
+R8
+R9
+R10
+!i113 1
+R11
+R12
+Epart3
+Z13 w1724790359
+R1
+R2
+R3
+Z14 8C:/Users/12777204/Desktop/part3/part3.vhd
+Z15 FC:/Users/12777204/Desktop/part3/part3.vhd
+l0
+L25
+VM33>F7Jo=CJ3THLS9nQkK1
+!s100 cS0WCj6C=POkNjih^?4fn1
+R6
+32
+R7
+!i10b 1
+R8
+Z16 !s90 -reportprogress|300|-work|work|-2002|-explicit|-stats=none|C:/Users/12777204/Desktop/part3/part3.vhd|
+Z17 !s107 C:/Users/12777204/Desktop/part3/part3.vhd|
+!i113 1
+R11
+R12
+Abdf_type
+R1
+R2
+DEx4 work 5 part3 0 22 M33>F7Jo=CJ3THLS9nQkK1
+l49
+L35
+V2Nj@ngk@K[<U<URS3>K>92
+!s100 oUbNneT]3WRo5^n@Fl=zP2
+R6
+32
+R7
+!i10b 1
+R8
+R16
+R17
+!i113 1
+R11
+R12

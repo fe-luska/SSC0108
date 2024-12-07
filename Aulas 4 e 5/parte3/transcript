@@ -1,0 +1,11 @@
+# Compile of parte3.vhd was successful.
+# Compile of parte3.vhd was successful.
+vsim work.parte3
+# vsim work.parte3 
+# Start time: 18:07:11 on Sep 16,2024
+# Loading std.standard
+# Loading std.textio(body)
+# Loading ieee.std_logic_1164(body)
+# Loading ieee.std_logic_arith(body)
+# Loading ieee.std_logic_unsigned(body)
+# Loading work.parte3(behavioral)

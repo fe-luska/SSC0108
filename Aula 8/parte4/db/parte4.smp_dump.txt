@@ -1,0 +1,7 @@
+
+State Machine - |parte4|state
+Name state.pause state.dash state.dot state.idle 
+state.idle 0 0 0 0 
+state.dot 0 0 1 1 
+state.dash 0 1 0 1 
+state.pause 1 0 0 1 

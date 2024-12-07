@@ -1,0 +1,62 @@
+library ieee;
+use ieee.std_logic_1164.all;
+use ieee.numeric_std.all;
+
+entity parte2 is
+    port    (
+        enable  : in    std_logic;
+        clock   : in    std_logic;
+        reset   : in    std_logic;
+        q1      : out   std_logic_vector(6 downto 0);
+        q2      : out   std_logic_vector(6 downto 0);
+        q3      : out   std_logic_vector(6 downto 0);
+        q4      : out   std_logic_vector(6 downto 0)
+    );
+end parte2;
+
+architecture behavioral of parte2 is
+    signal counter   : unsigned(15 downto 0);
+
+    -- Funções de conversão para display de 7 segmentos
+    function int_to_7seg(d : integer) return std_logic_vector is
+    begin
+        case d is
+            when 0   => return "0111111"; -- 0
+            when 1   => return "0000110"; -- 1
+            when 2   => return "1011011"; -- 2
+            when 3   => return "1001111"; -- 3
+            when 4   => return "1100110"; -- 4
+            when 5   => return "1101101"; -- 5
+            when 6   => return "1111101"; -- 6
+            when 7   => return "0000111"; -- 7
+            when 8   => return "1111111"; -- 8
+            when 9   => return "1101111"; -- 9
+            when 10  => return "1110111"; -- A
+            when 11  => return "1111100"; -- B
+            when 12  => return "0111001"; -- C
+            when 13  => return "1011110"; -- D
+            when 14  => return "1111001"; -- E
+            when 15  => return "1110001"; -- F
+            when others => return "0000000"; -- Desconhecido
+        end case;
+    end function;
+
+begin
+
+    process(clock, reset, enable)
+    begin
+        if reset = '1' then
+            counter <= (others => '0');
+        elsif rising_edge(clock) then
+            if enable = '1' then
+                counter <= counter + 1;
+            end if;
+        end if;
+    end process;
+
+    q1 <= int_to_7seg(to_integer(counter(3 downto 0))); -- Menos significativos
+    q2 <= int_to_7seg(to_integer(counter(7 downto 4)));
+    q3 <= int_to_7seg(to_integer(counter(11 downto 8)));
+    q4 <= int_to_7seg(to_integer(counter(15 downto 12))); -- Mais significativos
+
+end behavioral;

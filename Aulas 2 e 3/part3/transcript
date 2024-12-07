@@ -1,0 +1,41 @@
+# Compile of part3.vhd was successful.
+# Compile of part2_bloco.vhd was successful.
+# 2 compiles, 0 failed with no errors.
+vsim -gui work.part3
+# vsim -gui work.part3 
+# Start time: 17:39:21 on Aug 27,2024
+# Loading std.standard
+# Loading std.textio(body)
+# Loading ieee.std_logic_1164(body)
+# Loading work.part3(bdf_type)
+# Loading work.part2_bloco(bdf_type)
+wave create -driver freeze -pattern clock -initialvalue 0 -period 10ps -dutycycle 50 -starttime 0ps -endtime 100ps sim:/part3/Clock
+# Editable Wave items are not compatible with the wave window's standard undo-redo.  Standard undo-redo has been disabled.
+add wave -position end  sim:/part3/D
+add wave -position end  sim:/part3/Qb
+add wave -position end  sim:/part3/Qa
+wave create -driver freeze -pattern random -initialvalue 0 -period 5ps -random_type Normal -seed 5 -starttime 0ps -endtime 100ps sim:/part3/D
+run
+run
+run
+run
+run
+run
+run
+run
+run
+run
+run
+run
+run
+run
+run
+run
+run
+run
+run
+run
+run
+# End time: 17:41:32 on Aug 27,2024, Elapsed time: 0:02:11
+# Errors: 0, Warnings: 0
+wave editwrite -file C:/Users/12777204/Desktop/part3/wave.do
